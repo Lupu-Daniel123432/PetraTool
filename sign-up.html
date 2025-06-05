@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetreaTools - Înregistrare</title>
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    
+</head>
+<body>
+
+    <script src="script.js"></script>
+<script src="favorites.js"></script> 
+    <script src="header.js"></script>
+
+    <section class="log-in-bg">
+        <div class="login-container">
+            <h3 class="section-title-0">Înregistrare</h3>
+            <p class="register-prompt">Ai deja un cont? <a href="log-in.html" class="login-link">Autentifică-te</a></p>
+
+            <form class="login-form" id="registerForm">
+                <div class="form-group">
+                    <label for="username">Nume utilizator</label>
+                    <input type="text" id="username" name="username" placeholder="Introdu numele de utilizator" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Parolă</label>
+                    <input type="password" id="password" name="password" placeholder="Introdu parola" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmă parola</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Introdu parola din nou" required>
+                    <div class="password-mismatch" id="passwordMismatch">Parolele nu coincid!</div>
+                </div>
+
+                <input type="submit" value="Înregistrează-te" class="submit-btn">
+            </form>
+        </div>
+    </section>
+
+    <script src="footer.js"></script>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const mismatchError = document.getElementById('passwordMismatch');
+            
+            if (password !== confirmPassword) {
+                mismatchError.style.display = 'block';
+                event.preventDefault();
+            } else {
+                mismatchError.style.display = 'none';
+                alert('Înregistrare reușită!');
+            }
+        });
+
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = this.value;
+            const mismatchError = document.getElementById('passwordMismatch');
+            
+            if (confirmPassword !== '' && password !== confirmPassword) {
+                mismatchError.style.display = 'block';
+            } else {
+                mismatchError.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1299 @@
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Inițializare favorite dacă nu există
+    if (!localStorage.getItem('favorites')) {
+        localStorage.setItem('favorites', JSON.stringify([]));
+    }
+
+    // 2. Funcție globală pentru actualizarea numărului de favorite
+    window.updateFavoriteCount = function() {
+        try {
+            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            const favoriteCountElements = document.querySelectorAll('.wishlist .item-count');
+            
+            favoriteCountElements.forEach(element => {
+                element.textContent = favorites.length;
+            });
+        } catch (error) {
+            console.error('Eroare la actualizarea favorite count:', error);
+        }
+    };
+
+    // 3. Actualizează imediat la încărcarea paginii
+    updateFavoriteCount();
+
+    // 4. Meniu burger (codul tău existent)
+    const menuIcon = document.getElementById("menu-icon");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const closeBtn = document.getElementById("close-btn");
+    
+    if(menuIcon && mobileMenu && closeBtn) {
+        menuIcon.addEventListener("click", () => {
+            mobileMenu.style.left = "0";
+        });
+
+        closeBtn.addEventListener("click", () => {
+            mobileMenu.style.left = "-100%";
+        });
+    } else {
+        console.error("Elemente pentru meniul burger lipsă!");
+    }
+
+    // 5. Produsele (array-ul tău existent cu 105 produse)
+    const products = [
+        // Sape și hârlețe (Shovels)
+    {
+        id: 1,
+        name: "Sapă de grădinărit clasică",
+        category: "Unelte de grădinărit",
+        subcategory: "Sape și hârlețe",
+        price: 45.99,
+        image: "https://muncitorul.md/public/products/97/574e1f96f02d832c297a52b26548bb6a.jpg"
+    },
+    {
+        id: 2,
+        name: "Sapă cu dinți late",
+        category: "Unelte de grădinărit",
+        subcategory: "Sape și hârlețe",
+        price: 39.50,
+        image: "https://supraten.md/image/catalog/products/850677.jpg"
+    },
+    {
+        id: 3,
+        name: "Hârleț pentru săpat adânc",
+        category: "Unelte de grădinărit",
+        subcategory: "Sape și hârlețe",
+        price: 55.00,
+        image: "https://supraten.md/image/catalog/products/0590295.png"
+    },
+    {
+        id: 4,
+        name: "Sapă ergonomică cu mâner din cauciuc",
+        category: "Unelte de grădinărit",
+        subcategory: "Sape și hârlețe",
+        price: 62.75,
+        image: "https://s13emagst.akamaized.net/products/92508/92507421/images/res_fb8c3016d4e496c73a8e9801ba94d179.png"
+    },
+    {
+        id: 5,
+        name: "Set de 3 sape de diferite dimensiuni",
+        category: "Unelte de grădinărit",
+        subcategory: "Sape și hârlețe",
+        price: 120.00,
+        image: "https://s13emagst.akamaized.net/products/3672/3671315/images/res_b723a7896c777cb1469a0eb9e1d6b14c.jpg"
+    },
+    {
+        id: 6,
+        name: "Sapă de grădinărit profesională",
+        category: "Unelte de grădinărit",
+        subcategory: "Sape și hârlețe",
+        price: 78.30,
+        image: "https://c.cdnmp.net/818490206/p/l/3/mini-sapa-gradinarit-profesionala-otel-inoxidabil-maner-lemn-esenta~11783.jpg"
+    },
+    {
+        id: 7,
+        name: "Hârleț pentru flori",
+        category: "Unelte de grădinărit",
+        subcategory: "Sape și hârlețe",
+        price: 35.99,
+        image: "https://supraten.md/image/catalog/old/products/122976.jpg"
+    },
+    {
+        id: 8,
+        name: "Sapă cu mâner telescopic",
+        category: "Unelte de grădinărit",
+        subcategory: "Sape și hârlețe",
+        price: 67.50,
+        image: "https://lcdn.altex.ro/media/catalog/product/6/4/64c8b4c3d4ea5_af1451bc285f9aab52866b7e84f7a75b8a52fea4sapadetrasbetoncumanerdinaluminiubarikell_9ff40104.jpg"
+    },
+    {
+        id: 9,
+        name: "Sapă pentru copaci",
+        category: "Unelte de grădinărit",
+        subcategory: "Sape și hârlețe",
+        price: 42.00,
+        image: "https://supraten.md/image/catalog/products/851408.png"
+    },
+    {
+        id: 10,
+        name: "Hârleț pentru rădăcini",
+        category: "Unelte de grădinărit",
+        subcategory: "Sape și hârlețe",
+        price: 58.25,
+        image: "https://supraten.md/image/catalog/products/0590338.png"
+    },
+    {
+        id: 11,
+        name: "Sapă de grădinărit cu vârf ascuțit",
+        category: "Unelte de grădinărit",
+        subcategory: "Sape și hârlețe",
+        price: 49.99,
+        image: "https://s13emagst.akamaized.net/products/19350/19349993/images/res_1950151bbc00e5958d44bdce43fb3dee.jpg"
+    },
+    {
+        id: 12,
+        name: "Sapă pentru soluri dure",
+        category: "Unelte de grădinărit",
+        subcategory: "Sape și hârlețe",
+        price: 65.00,
+        image: "https://supraten.md/image/catalog/products/0590341.png"
+    },
+    {
+        id: 13,
+        name: "Sapă de grădinărit cu găuri",
+        category: "Unelte de grădinărit",
+        subcategory: "Sape și hârlețe",
+        price: 37.50,
+        image: "https://supraten.md/image/catalog/products/851408.png"
+    },
+    {
+        id: 14,
+        name: "Hârleț pentru plante",
+        category: "Unelte de grădinărit",
+        subcategory: "Sape și hârlețe",
+        price: 43.75,
+        image: "https://supraten.md/image/catalog/products/0590245.png"
+    },
+    {
+        id: 15,
+        name: "Sapă de grădinărit pentru copii",
+        category: "Unelte de grădinărit",
+        subcategory: "Sape și hârlețe",
+        price: 25.99,
+        image: "https://s13emagst.akamaized.net/products/57016/57015176/images/res_d532334a3572e33cb2b362ce20567345.jpg"
+    },
+
+    // Greble și furci (Rakes)
+    {
+        id: 16,
+        name: "Greblă de grădinărit standard",
+        category: "Unelte de grădinărit",
+        subcategory: "Greble și furci",
+        price: 32.50,
+        image: "https://supraten.md/image/catalog/products/850816.png"
+    },
+    {
+        id: 17,
+        name: "Greblă pentru frunze",
+        category: "Unelte de grădinărit",
+        subcategory: "Greble și furci",
+        price: 28.99,
+        image: "https://supraten.md/image/catalog/old/products/123384.jpg"
+    },
+    {
+        id: 18,
+        name: "Furcă pentru fân",
+        category: "Unelte de grădinărit",
+        subcategory: "Greble și furci",
+        price: 45.00,
+        image: "https://supraten.md/image/catalog/products/0590285.png"
+    },
+    {
+        id: 19,
+        name: "Greblă metalică rezistentă",
+        category: "Unelte de grădinărit",
+        subcategory: "Greble și furci",
+        price: 39.75,
+        image: "https://supraten.md/image/catalog/old/products/307476.jpg"
+    },
+    {
+        id: 20,
+        name: "Greblă cu dinți din plastic",
+        category: "Unelte de grădinărit",
+        subcategory: "Greble și furci",
+        price: 24.50,
+        image: "https://supraten.md/image/catalog/products/0590313.png"
+    },
+    {
+        id: 21,
+        name: "Furcă pentru compost",
+        category: "Unelte de grădinărit",
+        subcategory: "Greble și furci",
+        price: 52.00,
+        image: "https://supraten.md/image/catalog/products/851399.png"
+    },
+    {
+        id: 22,
+        name: "Greblă pentru pietriș",
+        category: "Unelte de grădinărit",
+        subcategory: "Greble și furci",
+        price: 36.99,
+        image: "https://supraten.md/image/catalog/products/0590007-2.png"
+    },
+    {
+        id: 23,
+        name: "Greblă cu mâner telescopic",
+        category: "Unelte de grădinărit",
+        subcategory: "Greble și furci",
+        price: 48.50,
+        image: "https://supraten.md/image/catalog/old/products/296110.jpg"
+    },
+    {
+        id: 24,
+        name: "Furcă pentru sol",
+        category: "Unelte de grădinărit",
+        subcategory: "Greble și furci",
+        price: 41.00,
+        image: "https://supraten.md/image/catalog/products/0590251.png"
+    },
+    {
+        id: 25,
+        name: "Greblă pentru gazon",
+        category: "Unelte de grădinărit",
+        subcategory: "Greble și furci",
+        price: 34.25,
+        image: "https://supraten.md/image/catalog/products/0590081.png"
+    },
+    {
+        id: 26,
+        name: "Set de 2 greble de diferite dimensiuni",
+        category: "Unelte de grădinărit",
+        subcategory: "Greble și furci",
+        price: 65.99,
+        image: "https://s13emagst.akamaized.net/products/59582/59581999/images/res_9ea8b2661825d6f5cbaf4c8b4d5d0a8b.jpg"
+    },
+    {
+        id: 27,
+        name: "Greblă pentru zăpadă",
+        category: "Unelte de grădinărit",
+        subcategory: "Greble și furci",
+        price: 29.50,
+        image: "https://supraten.md/image/catalog/old/products/73530.jpg"
+    },
+    {
+        id: 28,
+        name: "Furcă pentru gunoi de grădină",
+        category: "Unelte de grădinărit",
+        subcategory: "Greble și furci",
+        price: 38.00,
+        image: "https://supraten.md/image/catalog/products/0590187-1.png"
+    },
+    {
+        id: 29,
+        name: "Greblă profesională pentru grădinari",
+        category: "Unelte de grădinărit",
+        subcategory: "Greble și furci",
+        price: 72.75,
+        image: "https://supraten.md/image/catalog/old/products/296103.jpg"
+    },
+    {
+        id: 30,
+        name: "Greblă pentru copii",
+        category: "Unelte de grădinărit",
+        subcategory: "Greble și furci",
+        price: 19.99,
+        image: "https://s13emagst.akamaized.net/products/52596/52595197/images/res_dfbb669d4d14b2f2273e053ee5ade647.jpg"
+    },
+
+    // Măturători și perii (Brooms)
+    {
+        id: 31,
+        name: "Mătură de grădină clasică",
+        category: "Unelte de grădinărit",
+        subcategory: "Măturători și perii",
+        price: 25.50,
+        image: "https://igiena-market.md/wp-content/uploads/2021/04/160c.jpg"
+    },
+    {
+        id: 32,
+        name: "Mătură pentru pietriș",
+        category: "Unelte de grădinărit",
+        subcategory: "Măturători și perii",
+        price: 32.99,
+        image: "https://supraten.md/image/catalog/old/products/230485.jpg"
+    },
+    {
+        id: 33,
+        name: "Perie pentru pardoseală exterior",
+        category: "Unelte de grădinărit",
+        subcategory: "Măturători și perii",
+        price: 28.00,
+        image: "https://www.bricodepot.ro/media/catalog/product/5/9/5945404006447-matura-strada-500-bucsa-plastic-6545.jpg?optimize=high&fit=bounds&height=560&width=700"
+    },
+    {
+        id: 34,
+        name: "Mătură cu coadă lungă",
+        category: "Unelte de grădinărit",
+        subcategory: "Măturători și perii",
+        price: 35.75,
+        image: "https://images.okr.ro/serve/product/a95b0ef00a3923b682194a6f42f44d49-26691-400_400"
+    },
+    {
+        id: 35,
+        name: "Perie pentru scări",
+        category: "Unelte de grădinărit",
+        subcategory: "Măturători și perii",
+        price: 22.50,
+        image: "https://cdn-czdksesk.foerch.com/product/image/se/1000/035a353e-b4b1-4888-99f5-cfd9ff894519"
+    },
+    {
+        id: 36,
+        name: "Mătură pentru frunze",
+        category: "Unelte de grădinărit",
+        subcategory: "Măturători și perii",
+        price: 29.00,
+        image: "https://www.cleaningstuff.ro/assets/media/2022/05/Matura-frunze.jpg.webp"
+    },
+    {
+        id: 37,
+        name: "Set de 2 mături",
+        category: "Unelte de grădinărit",
+        subcategory: "Măturători și perii",
+        price: 45.99,
+        image: "https://c.cdnmp.net/612208531/p/l/9/set-de-2-maturi-cu-faras-nalcy-plastic-albastru-alb-22-x-9-cm-18-x-3~335339.jpg"
+    },
+    {
+        id: 38,
+        name: "Perie pentru balcon",
+        category: "Unelte de grădinărit",
+        subcategory: "Măturători și perii",
+        price: 26.50,
+        image: "https://www.hola.md/public/products/07/0430917.jpg"
+    },
+    {
+        id: 39,
+        name: "Mătură cu mâner reglabil",
+        category: "Unelte de grădinărit",
+        subcategory: "Măturători și perii",
+        price: 38.00,
+        image: "https://s13emagst.akamaized.net/products/2267/2266656/images/res_9900e9cd07053f7a7455982c4f4f4a47.jpg"
+    },
+    {
+        id: 40,
+        name: "Perie pentru piscină",
+        category: "Unelte de grădinărit",
+        subcategory: "Măturători și perii",
+        price: 41.25,
+        image: "https://i.simpalsmedia.com/marketplace/products/original/2f3cee4b1432d0765e715c2da304058e.jpg"
+    },
+    {
+        id: 41,
+        name: "Mătură profesională pentru grădinari",
+        category: "Unelte de grădinărit",
+        subcategory: "Măturători și perii",
+        price: 52.99,
+        image: "https://supraten.md/image/catalog/old/products/313849.jpg"
+    },
+    {
+        id: 42,
+        name: "Perie pentru covor exterior",
+        category: "Unelte de grădinărit",
+        subcategory: "Măturători și perii",
+        price: 34.50,
+        image: "https://supraten.md/image/catalog/old/products/311255.jpg"
+    },
+    {
+        id: 43,
+        name: "Mătură pentru copii",
+        category: "Unelte de grădinărit",
+        subcategory: "Măturători și perii",
+        price: 18.00,
+        image: "https://lcdn.altex.ro/media/catalog/product/6/6/662bcaec9f325_main_maturacufa_662bcaec9f77b_55170a89.jpg"
+    },
+    {
+        id: 44,
+        name: "Perie pentru mașină",
+        category: "Unelte de grădinărit",
+        subcategory: "Măturători și perii",
+        price: 27.75,
+        image: "https://profmet.md/gallery/product_gallery/img-8705-66825a6f3bf44094432530.webp"
+    },
+    {
+        id: 45,
+        name: "Mătură cu vârf metalic",
+        category: "Unelte de grădinărit",
+        subcategory: "Măturători și perii",
+        price: 31.99,
+        image: "https://s13emagst.akamaized.net/products/50808/50807869/images/res_91635a020253c49e3eb1a0ba7868d6cd.jpg"
+    },
+
+    // Furtunuri și accesorii (Hoses)
+    {
+        id: 46,
+        name: "Furtun de grădină 15m",
+        category: "Echipamente de irigare",
+        subcategory: "Furtunuri și accesorii",
+        price: 89.50,
+        image: "https://supraten.md/image/catalog/products/140981.png"
+    },
+    {
+        id: 47,
+        name: "Furtun extensibil 20m",
+        category: "Echipamente de irigare",
+        subcategory: "Furtunuri și accesorii",
+        price: 120.99,
+        image: "https://supraten.md/image/catalog/products/140974.png"
+    },
+    {
+        id: 48,
+        name: "Pistol de stropit reglabil",
+        category: "Echipamente de irigare",
+        subcategory: "Furtunuri și accesorii",
+        price: 45.00,
+        image: "https://supraten.md/image/catalog/products/0550177-1.png"
+    },
+    {
+        id: 49,
+        name: "Racord rapid pentru furtun",
+        category: "Echipamente de irigare",
+        subcategory: "Furtunuri și accesorii",
+        price: 15.75,
+        image: "https://api.volta.md/media/images/d5f72e65-141f-11e6-8a7d-0030489f37dc_1.webp"
+    },
+    {
+        id: 50,
+        name: "Furtun profesional 25m",
+        category: "Echipamente de irigare",
+        subcategory: "Furtunuri și accesorii",
+        price: 150.50,
+        image: "https://supraten.md/image/catalog/products/140971.png"
+    },
+    {
+        id: 51,
+        name: "Set de irigare cu 5 pistoane",
+        category: "Echipamente de irigare",
+        subcategory: "Furtunuri și accesorii",
+        price: 95.00,
+        image: "https://cdn.pandashop.md/i/?i=/i/products/69/693197.jpg&w=1220&h=1220"
+    },
+    {
+        id: 52,
+        name: "Suport pentru furtun",
+        category: "Echipamente de irigare",
+        subcategory: "Furtunuri și accesorii",
+        price: 32.99,
+        image: "https://supraten.md/image/catalog/old/products/295984.jpg"
+    },
+    {
+        id: 53,
+        name: "Furtun de irigare subțire 10m",
+        category: "Echipamente de irigare",
+        subcategory: "Furtunuri și accesorii",
+        price: 55.50,
+        image: "https://supraten.md/image/catalog/products/0570004.jpg"
+    },
+    {
+        id: 54,
+        name: "Teeseră pentru furtun",
+        category: "Echipamente de irigare",
+        subcategory: "Furtunuri și accesorii",
+        price: 28.00,
+        image: "https://coleso.md/image/cachewebp/catalog/iana/weze-do-pompowania-z-koncowka-samozaciskowa-800x600.webp"
+    },
+    {
+        id: 55,
+        name: "Furtun cu diametru mare 30m",
+        category: "Echipamente de irigare",
+        subcategory: "Furtunuri și accesorii",
+        price: 210.25,
+        image: "https://supraten.md/image/catalog/products/0550205.png"
+    },
+    {
+        id: 56,
+        name: "Pistol de stropit profesional",
+        category: "Echipamente de irigare",
+        subcategory: "Furtunuri și accesorii",
+        price: 65.99,
+        image: "https://supraten.md/image/catalog/products/0550172.png"
+    },
+    {
+        id: 57,
+        name: "Set de reparat furtunuri",
+        category: "Echipamente de irigare",
+        subcategory: "Furtunuri și accesorii",
+        price: 24.50,
+        image: "https://m.media-amazon.com/images/I/51DEKgKSVhL._AC_SL1000_.jpg"
+    },
+    {
+        id: 58,
+        name: "Furtun spiralat 5m",
+        category: "Echipamente de irigare",
+        subcategory: "Furtunuri și accesorii",
+        price: 42.00,
+        image: "https://supraten.md/image/catalog/products/0550201.png"
+    },
+    {
+        id: 59,
+        name: "Adaptor pentru robinet",
+        category: "Echipamente de irigare",
+        subcategory: "Furtunuri și accesorii",
+        price: 12.75,
+        image: "https://supraten.md/image/catalog/products/130423.jpg"
+    },
+    {
+        id: 60,
+        name: "Furtun termorezistent 15m",
+        category: "Echipamente de irigare",
+        subcategory: "Furtunuri și accesorii",
+        price: 110.99,
+        image: "https://supraten.md/image/catalog/old/products/310619.jpg"
+    },
+
+    // Stropitori (Sprinklers)
+    {
+        id: 61,
+        name: "Stropitoare rotativă 360°",
+        category: "Echipamente de irigare",
+        subcategory: "Stropitori",
+        price: 75.50,
+        image: "https://supraten.md/image/catalog/products/0550024.jpg"
+    },
+    {
+        id: 62,
+        name: "Stropitoare oscilantă",
+        category: "Echipamente de irigare",
+        subcategory: "Stropitori",
+        price: 92.99,
+        image: "https://supraten.md/image/catalog/old/products/222873.jpg"
+    },
+    {
+        id: 63,
+        name: "Stropitoare pulsativă",
+        category: "Echipamente de irigare",
+        subcategory: "Stropitori",
+        price: 65.00,
+        image: "https://supraten.md/image/catalog/old/products/295995.jpg"
+    },
+    {
+        id: 64,
+        name: "Stropitoare subterană",
+        category: "Echipamente de irigare",
+        subcategory: "Stropitori",
+        price: 120.75,
+        image: "https://supraten.md/image/catalog/products/0550196.png"
+    },
+    {
+        id: 65,
+        name: "Stropitoare cu jet reglabil",
+        category: "Echipamente de irigare",
+        subcategory: "Stropitori",
+        price: 55.50,
+        image: "https://supraten.md/image/catalog/old/products/296010.jpg"
+    },
+    {
+        id: 66,
+        name: "Set de 3 stropitori mici",
+        category: "Echipamente de irigare",
+        subcategory: "Stropitori",
+        price: 145.00,
+        image: "https://mestesugaretul.ro/cdn/shop/files/Screenshot_2025-03-30_at_11.24.18.png?v=1743323089&width=580"
+    },
+    {
+        id: 67,
+        name: "Stropitoare profesională pentru gazon",
+        category: "Echipamente de irigare",
+        subcategory: "Stropitori",
+        price: 210.99,
+        image: "https://supraten.md/image/catalog/old/products/296005.jpg"
+    },
+    {
+        id: 68,
+        name: "Stropitoare cu senzor de ploaie",
+        category: "Echipamente de irigare",
+        subcategory: "Stropitori",
+        price: 175.50,
+        image: "https://supraten.md/image/catalog/old/products/296015.jpg"
+    },
+    {
+        id: 69,
+        name: "Stropitoare pentru grădini mici",
+        category: "Echipamente de irigare",
+        subcategory: "Stropitori",
+        price: 48.00,
+        image: "https://supraten.md/image/catalog/old/products/296004.jpg"
+    },
+    {
+        id: 70,
+        name: "Stropitoare cu timer",
+        category: "Echipamente de irigare",
+        subcategory: "Stropitori",
+        price: 135.25,
+        image: "https://supraten.md/image/catalog/products/0550258.png"
+    },
+    {
+        id: 71,
+        name: "Stropitoare de perete",
+        category: "Echipamente de irigare",
+        subcategory: "Stropitori",
+        price: 85.99,
+        image: "https://supraten.md/image/catalog/products/130153.jpg"
+    },
+    {
+        id: 72,
+        name: "Stropitoare cu capete reglabile",
+        category: "Echipamente de irigare",
+        subcategory: "Stropitori",
+        price: 72.50,
+        image: "https://supraten.md/image/catalog/old/products/117378.jpg"
+    },
+    {
+        id: 73,
+        name: "Stropitoare pentru seră",
+        category: "Echipamente de irigare",
+        subcategory: "Stropitori",
+        price: 95.00,
+        image: "https://supraten.md/image/catalog/products/0550090.png"
+    },
+    {
+        id: 74,
+        name: "Stropitoare cu sistem de nebulizare",
+        category: "Echipamente de irigare",
+        subcategory: "Stropitori",
+        price: 155.75,
+        image: "https://agromag.md/images/detailed/21/Pulverizator_micul-fermier-ulv-nebulizator-1000w-5l.jpeg"
+    },
+    {
+        id: 75,
+        name: "Stropitoare portabilă",
+        category: "Echipamente de irigare",
+        subcategory: "Stropitori",
+        price: 42.99,
+        image: "https://supraten.md/image/catalog/products/0560038.png"
+    },
+
+    // Mașini de tuns iarba (Lawnmowers)
+    {
+        id: 76,
+        name: "Mașină de tuns iarbă electrică 1400W",
+        category: "Mașini și utilaje",
+        subcategory: "Mașini de tuns iarba",
+        price: 650.50,
+        image: "https://supraten.md/image/catalog/products/0580311.png"
+    },
+    {
+        id: 77,
+        name: "Mașină de tuns iarbă cu benzină 4T",
+        category: "Mașini și utilaje",
+        subcategory: "Mașini de tuns iarba",
+        price: 1200.99,
+        image: "https://supraten.md/image/catalog/products/1050479.png"
+    },
+    {
+        id: 78,
+        name: "Mașină de tuns iarbă robotică",
+        category: "Mașini și utilaje",
+        subcategory: "Mașini de tuns iarba",
+        price: 2500.00,
+        image: "https://supraten.md/image/catalog/products/0580195.png"
+    },
+    {
+        id: 79,
+        name: "Mașină de tuns iarbă cu baterie",
+        category: "Mașini și utilaje",
+        subcategory: "Mașini de tuns iarba",
+        price: 899.75,
+        image: "https://supraten.md/image/catalog/old/products/278083.jpg"
+    },
+    {
+        id: 80,
+        name: "Mașină de tuns iarbă manuală",
+        category: "Mașini și utilaje",
+        subcategory: "Mașini de tuns iarba",
+        price: 250.50,
+        image: "https://smadshop.md/image/cache/product/sad-i-ogorod/uhod-za-gazonom/einhell/ruchnaya-gazonokosilka-einhell-ge-hm-38-s-1280x960.jpg"
+    },
+    {
+        id: 81,
+        name: "Mașină de tuns iarbă profesională",
+        category: "Mașini și utilaje",
+        subcategory: "Mașini de tuns iarba",
+        price: 1800.00,
+        image: "https://supraten.md/image/catalog/old/products/140299.jpg"
+    },
+    {
+        id: 82,
+        name: "Mașină de tuns iarbă cu mulțire",
+        category: "Mașini și utilaje",
+        subcategory: "Mașini de tuns iarba",
+        price: 1100.99,
+        image: "https://supraten.md/image/catalog/old/products/117707.jpg"
+    },
+    {
+        id: 83,
+        name: "Mașină de tuns iarbă cu colector",
+        category: "Mașini și utilaje",
+        subcategory: "Mașini de tuns iarba",
+        price: 750.50,
+        image: "https://supraten.md/image/catalog/products/0580394.png"
+    },
+    {
+        id: 84,
+        name: "Mașină de tuns iarbă pe 2 roți",
+        category: "Mașini și utilaje",
+        subcategory: "Mașini de tuns iarba",
+        price: 550.00,
+        image: "https://s13emagst.akamaized.net/products/54382/54381234/images/res_e78d0e0fbc8a7a3c166fd7e1d230ccb3.jpg"
+    },
+    {
+        id: 85,
+        name: "Mașină de tuns iarbă pe 4 roți",
+        category: "Mașini și utilaje",
+        subcategory: "Mașini de tuns iarba",
+        price: 3200.25,
+        image: "https://supraten.md/image/catalog/old/products/282648.jpg"
+    },
+    {
+        id: 86,
+        name: "Mașină de tuns iarbă cu tăiere laterală",
+        category: "Mașini și utilaje",
+        subcategory: "Mașini de tuns iarba",
+        price: 850.99,
+        image: "https://www.yalco.ro/75321-large_default/masina-de-tuns-iarba-stanley-pe-benzina-139cm-2100w-slm-139-460.jpg"
+    },
+    {
+        id: 87,
+        name: "Mașină de tuns iarbă compactă",
+        category: "Mașini și utilaje",
+        subcategory: "Mașini de tuns iarba",
+        price: 490.50,
+        image: "https://www.directmotor.ro/product_images/221/p1b1q7p6q218amsto1a16rbgvms4.jpg"
+    },
+    {
+        id: 88,
+        name: "Mașină de tuns iarbă cu motor Honda",
+        category: "Mașini și utilaje",
+        subcategory: "Mașini de tuns iarba",
+        price: 1500.00,
+        image: "https://optim.tildacdn.com/tild6565-3435-4938-b236-323334323264/-/format/webp/HRG-466-C-SKEP.jpg.webp"
+    },
+    {
+        id: 89,
+        name: "Mașină de tuns iarbă pentru terenuri accidentate",
+        category: "Mașini și utilaje",
+        subcategory: "Mașini de tuns iarba",
+        price: 2200.75,
+        image: "https://www.verdon.ro/34342/robot-tuns-gazon-husqvarna-automower-535-awd.jpg"
+    },
+    {
+        id: 90,
+        name: "Mașină de tuns iarbă pentru gazon fin",
+        category: "Mașini și utilaje",
+        subcategory: "Mașini de tuns iarba",
+        price: 950.99,
+        image: "https://www.cfmoto.md/storage/transformed_images/product/150516/masina1-rzpp2-1674477597_500x500.webp"
+    },
+
+    // Motocoase (Chainsaws)
+    {
+        id: 91,
+        name: "Motocoasă electrică 2000W",
+        category: "Mașini și utilaje",
+        subcategory: "Motocoase",
+        price: 750.50,
+        image: "https://api.volta.md/media/images/109899c5-7dfc-11e9-82ef-1866daf62419_1.webp"
+    },
+    {
+        id: 92,
+        name: "Motocoasă cu benzină 45cc",
+        category: "Mașini și utilaje",
+        subcategory: "Motocoase",
+        price: 1300.99,
+        image: "https://supraten.md/image/catalog/old/products/225240.jpg"
+    },
+    {
+        id: 93,
+        name: "Motocoasă profesională 60cc",
+        category: "Mașini și utilaje",
+        subcategory: "Motocoase",
+        price: 2100.00,
+        image: "https://supraten.md/image/catalog/old/products/225239.jpg"
+    },
+    {
+        id: 94,
+        name: "Motocoasă cu baterie 36V",
+        category: "Mașini și utilaje",
+        subcategory: "Motocoase",
+        price: 1100.75,
+        image: "https://api.volta.md/media/images/7434792c-2173-11e6-b237-0030489f37dc_1.webp"
+    },
+    {
+        id: 95,
+        name: "Motocoasă ușoară 35cc",
+        category: "Mașini și utilaje",
+        subcategory: "Motocoase",
+        price: 850.50,
+        image: "https://supraten.md/image/catalog/old/products/225235.jpg"
+    },
+    {
+        id: 96,
+        name: "Motocoasă cu lanț Oregon",
+        category: "Mașini și utilaje",
+        subcategory: "Motocoase",
+        price: 1450.00,
+        image: "https://supraten.md/image/catalog/products/0580173.png"
+    },
+    {
+        id: 97,
+        name: "Motocoasă compactă pentru tăieri precise",
+        category: "Mașini și utilaje",
+        subcategory: "Motocoase",
+        price: 950.99,
+        image: "https://supraten.md/image/catalog/old/products/139654.jpg"
+    },
+    {
+        id: 98,
+        name: "Motocoasă cu sistem antivibrații",
+        category: "Mașini și utilaje",
+        subcategory: "Motocoase",
+        price: 1250.50,
+        image: "https://api.volta.md/media/images/9c96898d-fb8d-11ec-a159-00155d29b207_1.webp"
+    },
+    {
+        id: 99,
+        name: "Motocoasă pentru lemne de foc",
+        category: "Mașini și utilaje",
+        subcategory: "Motocoase",
+        price: 1100.00,
+        image: "https://api.volta.md/media/images/f49e9343-1fb0-11ed-a188-00155d29b207_1.webp"
+    },
+    {
+        id: 100,
+        name: "Motocoasă pentru arboricultură",
+        category: "Mașini și utilaje",
+        subcategory: "Motocoase",
+        price: 1800.25,
+        image: "https://api.volta.md/media/images/d88a2a4d-b95b-11eb-a03f-00155d29b207_1.webp"
+    },
+    {
+        id: 101,
+        name: "Motocoasă cu frână de lanț",
+        category: "Mașini și utilaje",
+        subcategory: "Motocoase",
+        price: 1350.99,
+        image: "https://api.volta.md/media/images/79e18866-cec3-11ed-a1e7-00155d29b207_1.webp"
+    },
+    {
+        id: 102,
+        name: "Motocoasă pentru tăieri orizontale",
+        category: "Mașini și utilaje",
+        subcategory: "Motocoase",
+        price: 1550.50,
+        image: "https://api.volta.md/media/images/8add6d8f-9ba3-11ec-a101-00155d29b207_1.webp"
+    },
+    {
+        id: 103,
+        name: "Motocoasă cu sistem de siguranță",
+        category: "Mașini și utilaje",
+        subcategory: "Motocoase",
+        price: 1650.00,
+        image: "https://api.volta.md/media/images/7d401605-464c-11e9-82ab-1866daf62419_1.webp"
+    },
+    {
+        id: 104,
+        name: "Motocoasă pentru utilizare intensivă",
+        category: "Mașini și utilaje",
+        subcategory: "Motocoase",
+        price: 2300.75,
+        image: "https://api.volta.md/media/images/8be17468-b270-11ec-a112-00155d29b207_1.webp"
+    },
+    {
+        id: 105,
+        name: "Motocoasă cu starter ușor",
+        category: "Mașini și utilaje",
+        subcategory: "Motocoase",
+        price: 1200.99,
+        image: "https://api.volta.md/media/images/9844eb7a-b291-11ed-a1db-00155d29b207_1.webp"
+    }
+    ];
+
+    localStorage.setItem('allProducts', JSON.stringify(products));
+
+    // 7. Funcții pentru gestionarea favoritelor
+    function toggleFavorite(productId) {
+        const favorites = getFavorites();
+        const index = favorites.findIndex(id => id === productId);
+        
+        if (index === -1) {
+            favorites.push(productId);
+        } else {
+            favorites.splice(index, 1);
+        }
+        
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        updateFavoriteIcon(productId);
+        updateFavoriteCount(); // Actualizează și contorul
+    }
+
+    function getFavorites() {
+        const favorites = localStorage.getItem('favorites');
+        return favorites ? JSON.parse(favorites) : [];
+    }
+
+    function isFavorite(productId) {
+        const favorites = getFavorites();
+        return favorites.includes(productId);
+    }
+
+    function updateFavoriteIcon(productId) {
+        const heartIcon = document.querySelector(`.product-card[data-id="${productId}"] .fa-heart`);
+        if (heartIcon) {
+            if (isFavorite(productId)) {
+                heartIcon.classList.add('fas');
+                heartIcon.classList.remove('far');
+            } else {
+                heartIcon.classList.add('far');
+                heartIcon.classList.remove('fas');
+            }
+        }
+    }
+
+
+    // Pagination variables
+    const productsPerPage = 20;
+    let currentPage = 1;
+    let filteredProducts = [...products];
+    let currentSortMethod = null;
+    
+    // DOM elements
+    const productsContainer = document.querySelector('.lista-produse');
+    const productsCountElement = document.querySelector('.produse-count');
+    const sortDropdown = document.querySelector('.sortare-dropdown-content');
+    
+    // Initialize the page
+    updateProductsCount();
+    displayProducts();
+    createPaginationButtons();
+    setupEventListeners();
+    
+    function setupEventListeners() {
+        // Category filtering
+        const mainCategories = document.querySelectorAll('.main-category');
+        const subCategories = document.querySelectorAll('.subcategory');
+        
+        // Add change events to all category checkboxes
+        mainCategories.forEach(mainCategory => {
+            mainCategory.addEventListener('change', function() {
+                const parentId = this.id;
+                const subCats = document.querySelectorAll(`.subcategory[data-parent="${parentId}"]`);
+                
+                // Check/uncheck all subcategories based on main category
+                subCats.forEach(subCat => {
+                    subCat.checked = this.checked;
+                });
+                
+                filterProducts();
+            });
+        });
+        
+        subCategories.forEach(subCategory => {
+            subCategory.addEventListener('change', function() {
+                const parentId = this.getAttribute('data-parent');
+                const parentCheckbox = document.getElementById(parentId);
+                const siblingSubCats = document.querySelectorAll(`.subcategory[data-parent="${parentId}"]`);
+                
+                // Update parent checkbox state
+                const allChecked = Array.from(siblingSubCats).every(subCat => subCat.checked);
+                parentCheckbox.checked = allChecked;
+                parentCheckbox.indeterminate = !allChecked && Array.from(siblingSubCats).some(subCat => subCat.checked);
+                
+                filterProducts();
+            });
+        });
+        
+        // Reset button
+        document.querySelector('.reset-btn').addEventListener('click', function() {
+            mainCategories.forEach(cat => cat.checked = false);
+            subCategories.forEach(cat => cat.checked = false);
+            currentSortMethod = null;
+            resetSortDropdown();
+            filterProducts();
+        });
+        
+        // Sort dropdown
+        const sortOptions = document.querySelectorAll('.sortare-dropdown-content a');
+        sortOptions.forEach(option => {
+            option.addEventListener('click', function(e) {
+                e.preventDefault();
+                const sortText = this.textContent;
+                document.querySelector('.sortare-btn').textContent = `Sortează: ${sortText}`;
+                
+                switch(sortText) {
+                    case 'Preț crescător':
+                        currentSortMethod = 'price-asc';
+                        break;
+                    case 'Preț descrescător':
+                        currentSortMethod = 'price-desc';
+                        break;
+                    case 'Nume (A-Z)':
+                        currentSortMethod = 'name-asc';
+                        break;
+                    case 'Nume (Z-A)':
+                        currentSortMethod = 'name-desc';
+                        break;
+                    default:
+                        currentSortMethod = null;
+                }
+                
+                filterProducts();
+            });
+        });
+    }
+    
+    function resetSortDropdown() {
+        document.querySelector('.sortare-btn').textContent = 'Sortează';
+    }
+    
+    // Filter products based on selected categories and sort method
+    function filterProducts() {
+        const selectedSubcategories = [];
+        
+        // Get all checked subcategories
+        document.querySelectorAll('.subcategory:checked').forEach(subCat => {
+            const label = subCat.nextElementSibling.textContent.trim();
+            selectedSubcategories.push(label);
+        });
+        
+        // Filter products
+        if (selectedSubcategories.length > 0) {
+            filteredProducts = products.filter(product => 
+                selectedSubcategories.includes(product.subcategory)
+            );
+        } else {
+            filteredProducts = [...products];
+        }
+        
+        // Sort products if a sort method is selected
+        if (currentSortMethod) {
+            sortProducts();
+        }
+        
+        // Reset to first page
+        currentPage = 1;
+        
+        // Update display
+        updateProductsCount();
+        displayProducts();
+        createPaginationButtons();
+    }
+    
+    // Sort products based on current sort method
+    function sortProducts() {
+        switch(currentSortMethod) {
+            case 'price-asc':
+                filteredProducts.sort((a, b) => a.price - b.price);
+                break;
+            case 'price-desc':
+                filteredProducts.sort((a, b) => b.price - a.price);
+                break;
+            case 'name-asc':
+                filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+                break;
+            case 'name-desc':
+                filteredProducts.sort((a, b) => b.name.localeCompare(a.name));
+                break;
+        }
+    }
+    
+    // Display products for the current page
+    function displayProducts() {
+        productsContainer.innerHTML = '';
+        
+        const startIndex = (currentPage - 1) * productsPerPage;
+        const endIndex = startIndex + productsPerPage;
+        const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+        
+        paginatedProducts.forEach(product => {
+            const productCard = createProductCard(product);
+            productsContainer.appendChild(productCard);
+        });
+    }
+    
+    // Create product card HTML
+     function createProductCard(product) {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.dataset.id = product.id;
+        
+        const isFav = isFavorite(product.id);
+        
+        card.innerHTML = `
+            <div class="product-image">
+                <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/300?text=Imagine+indisponibilă'">
+                <div class="product-wishlist">
+                    <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
+                </div>
+            </div>
+            <div class="product-info">
+                <h4 class="product-name">${product.name}</h4>
+                <div class="product-category">${product.subcategory}</div>
+                <div class="product-price">${product.price.toFixed(2)} MDL</div>
+                <button class="add-to-cart-btn">
+                    Adaugă în coș
+                </button>
+            </div>
+        `;
+        
+        // Adaugă event listener pentru inimuță
+        const heartIcon = card.querySelector('.product-wishlist');
+        heartIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleFavorite(product.id);
+        });
+        
+        return card;
+    }
+    
+
+    localStorage.setItem('allProducts', JSON.stringify(products));
+
+    // 6. Sort dropdown functionality
+    const sortareBtn = document.getElementById('sortareBtn');
+    const sortareDropdown = document.getElementById('sortareDropdown');
+    
+    if (sortareBtn && sortareDropdown) {
+        sortareBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            sortareDropdown.classList.toggle('show');
+        });
+        
+        document.addEventListener('click', function() {
+            sortareDropdown.classList.remove('show');
+        });
+        
+        sortareDropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+    // Create pagination buttons
+    function createPaginationButtons() {
+        const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+        const paginationContainer = document.createElement('div');
+        paginationContainer.className = 'pagination';
+        
+        // Previous button
+        const prevButton = document.createElement('button');
+        prevButton.className = 'pagination-button';
+        prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+        prevButton.disabled = currentPage === 1;
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                displayProducts();
+                createPaginationButtons();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+        paginationContainer.appendChild(prevButton);
+        
+        // Page buttons
+        const maxVisibleButtons = 5;
+        let startPage, endPage;
+        
+        if (totalPages <= maxVisibleButtons) {
+            startPage = 1;
+            endPage = totalPages;
+        } else {
+            const maxButtonsBeforeCurrent = Math.floor(maxVisibleButtons / 2);
+            const maxButtonsAfterCurrent = Math.ceil(maxVisibleButtons / 2) - 1;
+            
+            if (currentPage <= maxButtonsBeforeCurrent) {
+                startPage = 1;
+                endPage = maxVisibleButtons;
+            } else if (currentPage + maxButtonsAfterCurrent >= totalPages) {
+                startPage = totalPages - maxVisibleButtons + 1;
+                endPage = totalPages;
+            } else {
+                startPage = currentPage - maxButtonsBeforeCurrent;
+                endPage = currentPage + maxButtonsAfterCurrent;
+            }
+        }
+        
+        // First page button with ellipsis if needed
+        if (startPage > 1) {
+            const firstPageButton = createPageButton(1);
+            paginationContainer.appendChild(firstPageButton);
+            
+            if (startPage > 2) {
+                const ellipsis = document.createElement('span');
+                ellipsis.className = 'pagination-ellipsis';
+                ellipsis.textContent = '...';
+                paginationContainer.appendChild(ellipsis);
+            }
+        }
+        
+        // Middle page buttons
+        for (let i = startPage; i <= endPage; i++) {
+            const pageButton = createPageButton(i);
+            paginationContainer.appendChild(pageButton);
+        }
+        
+        // Last page button with ellipsis if needed
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                const ellipsis = document.createElement('span');
+                ellipsis.className = 'pagination-ellipsis';
+                ellipsis.textContent = '...';
+                paginationContainer.appendChild(ellipsis);
+            }
+            
+            const lastPageButton = createPageButton(totalPages);
+            paginationContainer.appendChild(lastPageButton);
+        }
+        
+        // Next button
+        const nextButton = document.createElement('button');
+        nextButton.className = 'pagination-button';
+        nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+        nextButton.disabled = currentPage === totalPages;
+        nextButton.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayProducts();
+                createPaginationButtons();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+        paginationContainer.appendChild(nextButton);
+        
+        // Add pagination to the page
+        const existingPagination = document.querySelector('.pagination');
+        if (existingPagination) {
+            existingPagination.replaceWith(paginationContainer);
+        } else {
+            productsContainer.parentNode.insertBefore(paginationContainer, productsContainer.nextSibling);
+        }
+    }
+    
+    // Helper function to create a page button
+    function createPageButton(pageNumber) {
+        const button = document.createElement('button');
+        button.className = `pagination-button ${pageNumber === currentPage ? 'active' : ''}`;
+        button.textContent = pageNumber;
+        button.addEventListener('click', () => {
+            currentPage = pageNumber;
+            displayProducts();
+            createPaginationButtons();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        return button;
+    }
+    
+    // Update products count display
+    function updateProductsCount() {
+        if (productsCountElement) {
+            productsCountElement.textContent = `Am găsit ${filteredProducts.length} produse pentru tine`;
+        }
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const sortareBtn = document.getElementById('sortareBtn');
+    const sortareDropdown = document.getElementById('sortareDropdown');
+    
+    // Afișează/ascunde dropdown la click
+    sortareBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        sortareDropdown.classList.toggle('show');
+    });
+    
+    // Ascunde dropdown când se face click în altă parte
+    document.addEventListener('click', function() {
+        sortareDropdown.classList.remove('show');
+    });
+    
+    // Previne închiderea dropdown-ului când se face click pe el
+    sortareDropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+});
+});
+

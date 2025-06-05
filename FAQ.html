@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetraTools</title>
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <script src="script.js"></script>
+<script src="favorites.js"></script> 
+    <script src="header.js"></script>
+    
+    <section class="bej-section-100">
+        <div class="faq-elemente">
+            <h3 class="section-title">FAQ</h3>
+
+            <div class="intrebari">
+
+            <div class="intrebare">
+                <div class="div-intrebare">
+                    <p class="intrebare-text">Ce tipuri de unelte pentru grădinărit oferă Petra Tools?</p>
+                    <i class="fa-solid fa-arrow-down arrow-btn"></i>
+                </div> 
+                <p class="raspuns">Petra Tools oferă o gamă variată de unelte pentru grădinărit, inclusiv stropitori, atomizoare, pompe de presiune, foarfece de tăiat, trimmere și accesorii pentru întreținerea grădinii.</p>
+            </div>
+
+            <div class="intrebare">
+                <div class="div-intrebare">
+                    <p class="intrebare-text">Livrați produsele la nivel național?</p>
+                    <i class="fa-solid fa-arrow-down arrow-btn"></i>
+                </div> 
+                <p class="raspuns">Da, livrăm produsele noastre oriunde în țară. Comenzile plasate până la ora 14:00 sunt expediate în aceeași zi.</p>
+            </div>
+
+            <div class="intrebare">
+                <div class="div-intrebare">
+                    <p class="intrebare-text">Oferiți garanție pentru produse?</p>
+                    <i class="fa-solid fa-arrow-down arrow-btn"></i>
+                </div> 
+                <p class="raspuns">Da, majoritatea produselor noastre beneficiază de o garanție de 12 luni. Pentru informații specifice despre fiecare produs, verifică pagina produsului sau contactează-ne.</p>
+            </div>
+
+            <div class="intrebare">
+                <div class="div-intrebare">
+                    <p class="intrebare-text">Pot returna un produs dacă nu sunt mulțumit?</p>
+                    <i class="fa-solid fa-arrow-down arrow-btn"></i>
+                </div> 
+                <p class="raspuns">Sigur! Acceptăm retururi în termen de 14 zile de la primirea comenzii, cu condiția ca produsul să fie în starea inițială și ambalajul intact.</p>
+            </div>
+
+            <div class="intrebare">
+                <div class="div-intrebare">
+                    <p class="intrebare-text">Petra Tools oferă reduceri pentru comenzile en-gros?</p>
+                    <i class="fa-solid fa-arrow-down arrow-btn"></i>
+                </div> 
+                <p class="raspuns">Da, oferim discounturi pentru comenzile en-gros. Pentru a primi o ofertă personalizată, te rugăm să ne contactezi direct.</p>
+            </div>
+            
+            </div>
+
+        </div>
+    </section>
+
+    <script src="footer.js"></script>
+
+
+    <script>
+        document.querySelectorAll('.intrebare').forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetreaTools</title>
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <script src="script.js"></script>
+    <script src="favorites.js"></script> 
+    
+    <script src="header.js"></script>
+
+
+    <section class="bej-section-100">
+
+        <div class="produse-main">
+            <h3 class="section-title">Produse</h3>
+
+            <div class="produse-div">
+                <div class="categorii">
+                    
+                    <div class="category-item">
+                        <div class="category-header">
+                            <input type="checkbox" id="gardening-tools" class="main-category">
+                            <label for="gardening-tools">Unelte de grădinărit</label>
+                        </div>
+                        <div class="subcategories">
+                            <div class="subcategory-item">
+                                <input type="checkbox" id="shovels" class="subcategory" data-parent="gardening-tools">
+                                <label for="shovels">Sape și hârlețe</label>
+                            </div>
+                            <div class="subcategory-item">
+                                <input type="checkbox" id="rakes" class="subcategory" data-parent="gardening-tools">
+                                <label for="rakes">Greble și furci</label>
+                            </div>
+                            <div class="subcategory-item">
+                                <input type="checkbox" id="brooms" class="subcategory" data-parent="gardening-tools">
+                                <label for="brooms">Măturători și perii</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="category-item">
+                        <div class="category-header">
+                            <input type="checkbox" id="irrigation" class="main-category">
+                            <label for="irrigation">Echipamente de irigare</label>
+                        </div>
+                        <div class="subcategories">
+                            <div class="subcategory-item">
+                                <input type="checkbox" id="hoses" class="subcategory" data-parent="irrigation">
+                                <label for="hoses">Furtunuri și accesorii</label>
+                            </div>
+                            <div class="subcategory-item">
+                                <input type="checkbox" id="sprinklers" class="subcategory" data-parent="irrigation">
+                                <label for="sprinklers">Stropitori</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+
+                    <div class="category-item">
+                        <div class="category-header">
+                            <input type="checkbox" id="machinery" class="main-category">
+                            <label for="machinery">Mașini și utilaje</label>
+                        </div>
+                        <div class="subcategories">
+                            <div class="subcategory-item">
+                                <input type="checkbox" id="lawnmowers" class="subcategory" data-parent="machinery">
+                                <label for="lawnmowers">Mașini de tuns iarba</label>
+                            </div>
+                            <div class="subcategory-item">
+                                <input type="checkbox" id="chainsaws" class="subcategory" data-parent="machinery">
+                                <label for="chainsaws">Motocoase</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                        <button class="reset-btn">Resetează</button>
+                
+                </div>
+                
+                <div class="produse-content">
+                    <div class="produse-header">
+                        <div class="produse-count">Am găsit 100 produse pentru tine</div>
+                        <div class="sortare-dropdown">
+                            <button class="sortare-btn" id="sortareBtn">
+                                Sortează <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="sortare-dropdown-content" id="sortareDropdown">
+                                <a href="#">Preț crescător</a>
+                                <a href="#">Preț descrescător</a>
+                                <a href="#">Nume (A-Z)</a>
+                                <a href="#">Nume (Z-A)</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="lista-produse">
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <script src="footer.js"></script>
+
+</body>
+</html>
